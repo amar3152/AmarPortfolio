@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amar Bhoite - Interactive Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom Scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Chart Container Specifics */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals & Slate Blue -->
+    <!-- Application Structure Plan: The app is designed as a vertical scrolling narrative with interactive "stops". 
+         1. Hero: Immediate impact. 
+         2. Skills: Interactive chart to visualize the "Full Stack" nature (High Java & JS).
+         3. Experience: Tabbed interface to reduce text density and allow focused reading of specific roles.
+         4. Projects: Grid layout to showcase the "Product" aspect of the developer's work.
+         5. Education/Awards: Validation section.
+         This structure was chosen to guide a recruiter from "Who is he?" to "What can he do?" to "Where has he done it?" logic. -->
+    <!-- Visualization & Content Choices: 
+         1. Resume Skills -> Goal: Compare Proficiency -> Viz: Bar Chart -> Interaction: Category Toggle (Code vs Tools) -> Justification: Allows quick visual scanning of stack breadth vs depth.
+         2. Experience Text -> Goal: Inform -> Viz: Interactive Tabs -> Interaction: Click to Reveal -> Justification: Prevents wall-of-text fatigue.
+         3. Project Data -> Goal: Inform -> Viz: Card Grid -> Interaction: Hover for Stack -> Justification: Highlights the tech stack context for each deliverable.
+         -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed selection:bg-indigo-100 selection:text-indigo-800">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-xl font-bold text-slate-900">AMAR BHOITE</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="scrollToSection('summary')" class="text-slate-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Summary</button>
+                    <button onclick="scrollToSection('skills')" class="text-slate-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Skills Analytics</button>
+                    <button onclick="scrollToSection('experience')" class="text-slate-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Experience</button>
+                    <button onclick="scrollToSection('projects')" class="text-slate-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Projects</button>
+                </div>
+                <!-- Mobile menu button stub (functional in full app) -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-indigo-600 focus:outline-none">
+                        <span class="text-2xl">☰</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="scrollToSection('summary')" class="block w-full text-left text-slate-600 hover:bg-slate-50 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium">Summary</button>
+                <button onclick="scrollToSection('skills')" class="block w-full text-left text-slate-600 hover:bg-slate-50 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium">Skills</button>
+                <button onclick="scrollToSection('experience')" class="block w-full text-left text-slate-600 hover:bg-slate-50 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium">Experience</button>
+                <button onclick="scrollToSection('projects')" class="block w-full text-left text-slate-600 hover:bg-slate-50 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium">Projects</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+
+        <!-- Hero & Summary Section -->
+        <section id="summary" class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
+            <div class="lg:col-span-2 space-y-6">
+                <div class="inline-block bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">Software Developer</div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+                    Building Scalable <span class="text-indigo-600">Real-Time</span> Applications
+                </h1>
+                <p class="text-lg text-slate-600 leading-relaxed max-w-2xl">
+                    I am a Full-stack MERN & Java Developer with a passion for architecting robust backend systems and intuitive frontend interfaces. My expertise spans 
+                    <strong>React, Node.js, Java, Spring Boot,</strong> and 
+                    <strong>AWS</strong> cloud infrastructure.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="mailto:bhoiteamar3152000@gmail.com" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-colors">
+                        ✉ Email Me
+                    </a>
+                    <a href="https://linkedin.com/in/amarbhoite" target="_blank" class="inline-flex items-center px-6 py-3 border border-slate-300 text-base font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 transition-colors">
+                        In LinkedIn
+                    </a>
+                </div>
+                <div class="text-sm text-slate-500 pt-2">
+                    📍 +91-8329690258
+                </div>
+            </div>
+            
+            <!-- Quick Stats / Highlights Card -->
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 lg:col-span-1 transform hover:-translate-y-1 transition-transform duration-300">
+                <h3 class="text-lg font-bold text-slate-900 mb-6 border-b border-slate-100 pb-2">Key Highlights</h3>
+                <ul class="space-y-4">
+                    <li class="flex items-start">
+                        <span class="text-green-500 mr-3 text-xl">★</span>
+                        <div>
+                            <span class="block font-semibold text-slate-800">5-Star HackerRank</span>
+                            <span class="text-sm text-slate-500">Java & SQL Proficiency</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-indigo-500 mr-3 text-xl">⚛</span>
+                        <div>
+                            <span class="block font-semibold text-slate-800">MERN Stack Expert</span>
+                            <span class="text-sm text-slate-500">Full-stack Excellence Award</span>
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="text-orange-500 mr-3 text-xl">☁</span>
+                        <div>
+                            <span class="block font-semibold text-slate-800">AWS Deployed</span>
+                            <span class="text-sm text-slate-500">EC2 & S3 Integration</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Skills Analytics Section -->
+        <section id="skills" class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-12 overflow-hidden">
+            <div class="mb-8 md:flex md:justify-between md:items-center">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-3xl font-bold text-slate-900">Technical Proficiency</h2>
+                    <p class="text-slate-600 mt-2">A quantitative breakdown of my development stack.</p>
+                </div>
+                <div class="bg-slate-100 p-1 rounded-lg inline-flex">
+                    <button onclick="updateChart('languages')" id="btn-lang" class="px-4 py-2 text-sm font-medium rounded-md shadow-sm bg-white text-indigo-600 transition-all">Languages & Frameworks</button>
+                    <button onclick="updateChart('tools')" id="btn-tools" class="px-4 py-2 text-sm font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all">Tools & Platforms</button>
+                </div>
+            </div>
+            
+            <div class="w-full bg-slate-50 rounded-xl p-4 border border-slate-100">
+                <div class="chart-container">
+                    <canvas id="skillsChart"></canvas>
+                </div>
+            </div>
+            
+            <p class="mt-6 text-sm text-slate-500 text-center italic">
+                * Proficiency levels estimated based on project utilization and certification badges.
+            </p>
+        </section>
+
+        <!-- Experience Interactive Section -->
+        <section id="experience">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-900">Professional Journey</h2>
+                <p class="text-slate-600 mt-2 max-w-3xl">
+                    My career path involves hands-on development in both internship and full-time roles, delivering end-to-end solutions for real-world clients. Select a role below to view details.
+                </p>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <!-- Tabs/Timeline List -->
+                <div class="md:w-1/3 flex flex-col space-y-2" id="exp-tabs">
+                    <!-- Tabs will be injected here by JS -->
+                </div>
+
+                <!-- Detail Panel -->
+                <div class="md:w-2/3 bg-white rounded-2xl p-8 shadow-md border border-slate-100 min-h-[300px] flex flex-col justify-center relative transition-all duration-300" id="exp-detail-panel">
+                    <!-- Dynamic Content -->
+                    <div id="exp-content" class="opacity-100 transition-opacity duration-300">
+                        <!-- Content injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Grid Section -->
+        <section id="projects">
+            <div class="mb-10">
+                <h2 class="text-3xl font-bold text-slate-900">Project Ecosystem</h2>
+                <p class="text-slate-600 mt-2">
+                    A showcase of deployed applications demonstrating full-stack capabilities, from database architecture to frontend UI and cloud deployment.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
+                <!-- Cards injected by JS -->
+            </div>
+        </section>
+
+        <!-- Education & Certifications -->
+        <section id="education" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            <!-- Education Column -->
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                    <span class="bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3 text-sm">🎓</span> 
+                    Education
+                </h2>
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-200 transition-colors">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-slate-900">B.E. Computer Engineering</h3>
+                            <span class="text-xs font-mono bg-slate-100 text-slate-600 px-2 py-1 rounded">2023</span>
+                        </div>
+                        <p class="text-indigo-600 text-sm font-medium mt-1">DYPIET, Ambi, Pune</p>
+                        <p class="text-slate-500 text-sm mt-2">CGPA: 8.3/10</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-200 transition-colors">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-bold text-slate-900">Diploma Computer Engineering</h3>
+                            <span class="text-xs font-mono bg-slate-100 text-slate-600 px-2 py-1 rounded">2020</span>
+                        </div>
+                        <p class="text-indigo-600 text-sm font-medium mt-1">KBP Poly, Satara</p>
+                        <p class="text-slate-500 text-sm mt-2">Percentage: 83.00%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications Column -->
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
+                    <span class="bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3 text-sm">🏆</span> 
+                    Certifications & Awards
+                </h2>
+                <div class="space-y-4">
+                    <div class="flex items-center p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                        <div class="h-10 w-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold mr-4">HR</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Java 5-Star Badge</h4>
+                            <p class="text-xs text-slate-500">HackerRank (2025)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                        <div class="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold mr-4">HR</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">SQL 5-Star Badge</h4>
+                            <p class="text-xs text-slate-500">HackerRank (2025)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                        <div class="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold mr-4">KT</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">MERN Stack Project Excellence</h4>
+                            <p class="text-xs text-slate-500">Kods Technology (2025)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
+                        <div class="h-10 w-10 bg-red-100 rounded-full flex items-center justify-center text-red-600 font-bold mr-4">SL</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Gemini in Google Drive</h4>
+                            <p class="text-xs text-slate-500">Simplilearn (2024)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-slate-500 text-sm py-12 border-t border-slate-200">
+            <p>&copy; 2025 Amar Bhoite. Generated from Resume Source.</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Data Store ---
+        const skillsData = {
+            languages: {
+                labels: ['Java', 'Spring Boot', 'React', 'Node.js', 'MongoDB', 'SQL', 'Next.js'],
+                data: [95, 90, 85, 80, 85, 90, 75], // Inferred values based on "5-star" and project usage
+                color: 'rgba(79, 70, 229, 0.7)', // Indigo
+                borderColor: 'rgba(79, 70, 229, 1)'
+            },
+            tools: {
+                labels: ['AWS (EC2/S3)', 'Git/GitHub', 'Postman', 'VS Code', 'MySQL Workbench', 'MongoDB Compass'],
+                data: [70, 85, 90, 95, 85, 85],
+                color: 'rgba(16, 185, 129, 0.7)', // Emerald
+                borderColor: 'rgba(16, 185, 129, 1)'
+            }
+        };
+
+        const experienceData = [
+            {
+                id: 1,
+                role: "Software Developer",
+                company: "Kods Technology, Bangalore",
+                period: "July 2025 – Nov 2025",
+                summary: "Lead Full-stack development for multiple client projects including OTT platforms and Hospital Management systems.",
+                highlights: [
+                    "<strong>Filmox (OTT):</strong> Developed real-time chat & live events using WebSockets.",
+                    "<strong>Utpala (Hospital):</strong> Built full-stack system with 7 dashboards single-handedly.",
+                    "<strong>URLab:</strong> Optimized API performance and dashboard UI for lab management."
+                ],
+                tech: ["VS Code", "MongoDB", "Postman", "WebSockets"]
+            },
+            {
+                id: 2,
+                role: "Java Developer Intern",
+                company: "MBBlabs, Bangalore",
+                period: "June 2024 – June 2025",
+                summary: "Focused on backend architecture, API development, and security implementation.",
+                highlights: [
+                    "Implemented robust REST APIs using Java & Spring Boot.",
+                    "Developed user management & role-based access control modules.",
+                    "Collaborated on debugging and API performance optimization."
+                ],
+                tech: ["Java", "Spring Boot", "MySQL"]
+            }
+        ];
+
+        const projectsData = [
+            {
+                title: "Filmox",
+                subtitle: "Social Entertainment Platform",
+                desc: "A feature-rich OTT platform combining streaming with social interaction.",
+                features: ["Real-time Chat (Socket.io)", "Live Events", "Post Like-counts", "AWS S3 Media Storage"],
+                stack: "MERN, Socket.io, AWS",
+                color: "indigo"
+            },
+            {
+                title: "Utpala",
+                subtitle: "Ayurvedic Hospital System",
+                desc: "Comprehensive management system streamlining patient and doctor workflows.",
+                features: ["7 Role-based Dashboards", "Appointment Scheduling", "Doctor Allocation", "AWS EC2 Deployment"],
+                stack: "MERN, AWS, Git",
+                color: "emerald"
+            },
+            {
+                title: "URLab",
+                subtitle: "Blood Test Lab Manager",
+                desc: "Digital solution for laboratory operations and reporting.",
+                features: ["Test Scheduling", "Report Handling", "User Auth", "CRUD Optimization"],
+                stack: "MERN Stack",
+                color: "blue"
+            }
+        ];
+
+        // --- Chart.js Initialization ---
+        let skillChart;
+
+        function initChart() {
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            skillChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: skillsData.languages.labels,
+                    datasets: [{
+                        label: 'Proficiency Level (%)',
+                        data: skillsData.languages.data,
+                        backgroundColor: skillsData.languages.color,
+                        borderColor: skillsData.languages.borderColor,
+                        borderWidth: 1,
+                        borderRadius: 4,
+                        barPercentage: 0.6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: { color: '#f1f5f9' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#1e293b',
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: (context) => `Confidence: ${context.raw}%`
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateChart(type) {
+            // Update Data
+            skillChart.data.labels = skillsData[type].labels;
+            skillChart.data.datasets[0].data = skillsData[type].data;
+            skillChart.data.datasets[0].backgroundColor = skillsData[type].color;
+            skillChart.data.datasets[0].borderColor = skillsData[type].borderColor;
+            skillChart.update();
+
+            // Update Buttons Styles
+            const btnLang = document.getElementById('btn-lang');
+            const btnTools = document.getElementById('btn-tools');
+
+            if (type === 'languages') {
+                btnLang.className = "px-4 py-2 text-sm font-medium rounded-md shadow-sm bg-white text-indigo-600 transition-all";
+                btnTools.className = "px-4 py-2 text-sm font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
+            } else {
+                btnTools.className = "px-4 py-2 text-sm font-medium rounded-md shadow-sm bg-white text-indigo-600 transition-all";
+                btnLang.className = "px-4 py-2 text-sm font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
+            }
+        }
+
+        // --- Experience Interaction ---
+        let currentExpId = 1;
+
+        function renderExperience() {
+            const tabContainer = document.getElementById('exp-tabs');
+            const contentContainer = document.getElementById('exp-content');
+            
+            // Render Tabs
+            tabContainer.innerHTML = experienceData.map(exp => `
+                <button onclick="switchExperience(${exp.id})" 
+                    class="text-left px-6 py-4 rounded-xl transition-all duration-200 border-l-4 ${currentExpId === exp.id ? 'bg-white shadow-md border-indigo-500' : 'bg-transparent border-transparent hover:bg-slate-100'}">
+                    <h4 class="font-bold text-slate-900 ${currentExpId === exp.id ? 'text-indigo-700' : ''}">${exp.role}</h4>
+                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-wide">${exp.company}</p>
+                </button>
+            `).join('');
+
+            // Render Content
+            const activeExp = experienceData.find(e => e.id === currentExpId);
+            contentContainer.innerHTML = `
+                <div class="animate-fadeIn">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">${activeExp.role}</h3>
+                            <p class="text-lg text-indigo-600 font-medium">${activeExp.company}</p>
+                        </div>
+                        <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-mono">${activeExp.period}</span>
+                    </div>
+                    <p class="text-slate-600 mb-6 leading-relaxed">${activeExp.summary}</p>
+                    <ul class="space-y-3 mb-6">
+                        ${activeExp.highlights.map(h => `<li class="flex items-start"><span class="text-indigo-400 mr-2">➤</span> <span class="text-slate-700 text-sm">${h}</span></li>`).join('')}
+                    </ul>
+                    <div class="flex flex-wrap gap-2 pt-4 border-t border-slate-100">
+                        ${activeExp.tech.map(t => `<span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">${t}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function switchExperience(id) {
+            const panel = document.getElementById('exp-content');
+            panel.style.opacity = '0';
+            setTimeout(() => {
+                currentExpId = id;
+                renderExperience();
+                panel.style.opacity = '1';
+            }, 200);
+        }
+
+        // --- Projects Rendering ---
+        function renderProjects() {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = projectsData.map(proj => `
+                <div class="group bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl hover:border-indigo-200 transition-all duration-300 flex flex-col h-full">
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">${proj.title}</h3>
+                            <span class="text-xs font-bold px-2 py-1 rounded bg-${proj.color}-100 text-${proj.color}-700 uppercase">${proj.stack.split(',')[0]}</span>
+                        </div>
+                        <p class="text-sm text-slate-500 font-medium mb-3">${proj.subtitle}</p>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">${proj.desc}</p>
+                        
+                        <div class="space-y-2">
+                            ${proj.features.slice(0,3).map(f => `
+                                <div class="flex items-center text-xs text-slate-500">
+                                    <span class="w-1.5 h-1.5 bg-slate-300 rounded-full mr-2"></span>${f}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-4 border-t border-slate-100 text-xs text-slate-500 flex justify-between items-center">
+                        <span class="font-mono">${proj.stack}</span>
+                        <span class="text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity font-bold cursor-pointer">View Details &rarr;</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // --- Utilities ---
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            const navHeight = 80; // approximate nav height
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+        
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+            });
+            
+            // Close mobile menu if open
+            const mobileMenu = document.getElementById('mobile-menu');
+            if(!mobileMenu.classList.contains('hidden')){
+                mobileMenu.classList.add('hidden');
+            }
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart();
+            renderExperience();
+            renderProjects();
+
+            // Mobile menu toggle
+            document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+        });
+
+    </script>
+</body>
+</html>
