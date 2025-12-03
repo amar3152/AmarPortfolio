@@ -3,25 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amar Bhoite</title>
+    <title>Amar Bhoite - Portfolio (Dark UI)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Custom Scrollbar for a cleaner look */
+        /* Custom Scrollbar for a cleaner dark look */
         ::-webkit-scrollbar {
             width: 8px;
         }
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #050117;
         }
         ::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
+            background: #5b21b7; /* Dark Purple/Indigo */
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
+            background: #7c3aed; /* Lighter Purple */
         }
 
+        /* Timeline styling for Career Journey (Experience) */
+        .timeline-item-exp {
+            position: relative;
+            padding-left: 20px;
+        }
+        .timeline-item-exp::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #a78bfa; /* Purple dot */
+            z-index: 10;
+        }
+        .timeline-item-exp:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1rem;
+            bottom: -0.5rem;
+            width: 2px;
+            background-color: #3f3f46; /* Gray line */
+        }
+
+        /* Custom Colors from the image */
+        .bg-dark-primary { background-color: #050117; }
+        .bg-dark-secondary { background-color: #100730; }
+        .border-dark-line { border-color: #2f2b4c; }
+        .text-neon-purple { color: #a78bfa; }
+        .bg-neon-purple { background-color: #4f46e5; } /* Used for primary buttons */
+
+        /* Animation for section content */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Input and Textarea Styles */
+        .dark-input {
+            background-color: #100730;
+            border-color: #2f2b4c;
+            color: #d1d5db;
+        }
+
+        /* Custom Tag Styles */
+        .custom-tag {
+            background-color: rgba(79, 70, 229, 0.2); /* Semi-transparent indigo */
+            color: #a78bfa; /* Neon Purple text */
+        }
+
+        /* Skills/Technologies Grid buttons */
+        .skills-grid-btn {
+            background-color: #100730;
+            border: 1px solid #2f2b4c;
+            color: #a78bfa;
+            transition: all 0.2s;
+        }
+        .skills-grid-btn:hover {
+            background-color: #1e0d5a;
+            border-color: #4f46e5;
+            box-shadow: 0 0 10px rgba(79, 70, 229, 0.5);
+        }
+        
         /* Chart Container Specifics */
         .chart-container {
             position: relative;
@@ -45,243 +113,270 @@
     </style>
     
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans leading-relaxed selection:bg-indigo-100 selection:text-indigo-800">
+<body class="bg-dark-primary text-slate-50 font-sans leading-relaxed selection:bg-indigo-900 selection:text-white">
 
-    <!-- Navigation -->
-    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="sticky top-0 z-50 bg-dark-primary/90 backdrop-blur-md border-b border-dark-line shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex-shrink-0 flex items-center">
-                    <span class="text-xl font-bold text-slate-900">AMAR BHOITE</span>
+                    <span class="text-2xl font-extrabold text-neon-purple tracking-wider">AMAR BHOITE</span>
                 </div>
-                <div class="hidden md:flex space-x-8">
-                    <button onclick="scrollToSection('summary')" class="text-slate-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Summary</button>
-                    <button onclick="scrollToSection('skills')" class="text-slate-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Skills Analytics</button>
-                    <button onclick="scrollToSection('experience')" class="text-slate-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Experience</button>
-                    <button onclick="scrollToSection('projects')" class="text-slate-600 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition-colors">Projects</button>
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a onclick="scrollToSection('summary')" class="text-slate-300 hover:text-indigo-400 px-3 py-2 text-sm font-medium transition-colors cursor-pointer">Summary</a>
+                    <a onclick="scrollToSection('career')" class="text-slate-300 hover:text-indigo-400 px-3 py-2 text-sm font-medium transition-colors cursor-pointer">Career</a>
+                    <a onclick="scrollToSection('skills')" class="text-slate-300 hover:text-indigo-400 px-3 py-2 text-sm font-medium transition-colors cursor-pointer">Skills</a>
+                    <a onclick="scrollToSection('projects')" class="text-slate-300 hover:text-indigo-400 px-3 py-2 text-sm font-medium transition-colors cursor-pointer">Projects</a>
+                    <a href="#contact" class="inline-flex items-center px-4 py-2 border border-indigo-500 text-sm font-medium rounded-full text-indigo-400 hover:bg-indigo-900 transition-colors">
+                        Say Hello 👋
+                    </a>
                 </div>
-                <!-- Mobile menu button stub (functional in full app) -->
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-indigo-600 focus:outline-none">
+                    <button id="mobile-menu-btn" class="text-slate-300 hover:text-indigo-400 focus:outline-none">
                         <span class="text-2xl">☰</span>
                     </button>
                 </div>
             </div>
         </div>
-        <!-- Mobile Menu (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100">
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-primary border-t border-dark-line">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <button onclick="scrollToSection('summary')" class="block w-full text-left text-slate-600 hover:bg-slate-50 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium">Summary</button>
-                <button onclick="scrollToSection('skills')" class="block w-full text-left text-slate-600 hover:bg-slate-50 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium">Skills</button>
-                <button onclick="scrollToSection('experience')" class="block w-full text-left text-slate-600 hover:bg-slate-50 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium">Experience</button>
-                <button onclick="scrollToSection('projects')" class="block w-full text-left text-slate-600 hover:bg-slate-50 hover:text-indigo-600 px-3 py-2 rounded-md text-base font-medium">Projects</button>
+                <a onclick="scrollToSection('summary')" class="block w-full text-left text-slate-300 hover:bg-[#1e0d5a] hover:text-indigo-400 px-3 py-2 rounded-md text-base font-medium cursor-pointer">Summary</a>
+                <a onclick="scrollToSection('career')" class="block w-full text-left text-slate-300 hover:bg-[#1e0d5a] hover:text-indigo-400 px-3 py-2 rounded-md text-base font-medium cursor-pointer">Career</a>
+                <a onclick="scrollToSection('skills')" class="block w-full text-left text-slate-300 hover:bg-[#1e0d5a] hover:text-indigo-400 px-3 py-2 rounded-md text-base font-medium cursor-pointer">Skills</a>
+                <a onclick="scrollToSection('projects')" class="block w-full text-left text-slate-300 hover:bg-[#1e0d5a] hover:text-indigo-400 px-3 py-2 rounded-md text-base font-medium cursor-pointer">Projects</a>
+                <a href="#contact" class="block w-full text-left text-indigo-400 hover:bg-[#1e0d5a] px-3 py-2 rounded-md text-base font-medium">Say Hello</a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
 
-        <!-- Hero & Summary Section -->
-        <section id="summary" class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-center">
-            <div class="lg:col-span-2 space-y-6">
-                <div class="inline-block bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wide">Software Developer</div>
-                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
-                    Building Scalable <span class="text-indigo-600">Real-Time</span> Applications
+        <section id="summary" class="pt-8">
+            <div class="max-w-5xl mx-auto text-center mb-12">
+                <p class="text-sm font-semibold uppercase tracking-widest text-indigo-400 mb-3 border border-indigo-400/30 inline-block px-3 py-1 rounded-full">
+                    Software Developer
+                </p>
+                <h1 class="text-5xl md:text-6xl font-extrabold text-white tracking-tight leading-tight">
+                    Building Scalable <span class="text-indigo-400">Real-Time</span> Applications
                 </h1>
-                <p class="text-lg text-slate-600 leading-relaxed max-w-2xl">
-                    I am a Full-stack MERN & Java Developer with a passion for architecting robust backend systems and intuitive frontend interfaces. My expertise spans 
-                    <strong>React, Node.js, Java, Spring Boot,</strong> and 
-                    <strong>AWS</strong> cloud infrastructure.
-                </p>
-                <div class="flex flex-wrap gap-4 pt-4">
-                    <a href="mailto:bhoiteamar3152000@gmail.com" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition-colors">
-                        ✉ Email Me
-                    </a>
-                    <a href="https://www.linkedin.com/in/amar-bhoite-93685822a/" target="_blank" class="inline-flex items-center px-6 py-3 border border-slate-300 text-base font-medium rounded-md text-slate-700 bg-white hover:bg-slate-50 transition-colors">
-                        In LinkedIn
-                    </a>
-                </div>
-                <div class="text-sm text-slate-500 pt-2">
-                    📍 +91-8329690258
-                </div>
             </div>
             
-            <!-- Quick Stats / Highlights Card -->
-            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-100 lg:col-span-1 transform hover:-translate-y-1 transition-transform duration-300">
-                <h3 class="text-lg font-bold text-slate-900 mb-6 border-b border-slate-100 pb-2">Key Highlights</h3>
-                <ul class="space-y-4">
-                    <li class="flex items-start">
-                        <span class="text-green-500 mr-3 text-xl">★</span>
-                        <div>
-                            <span class="block font-semibold text-slate-800">5-Star HackerRank</span>
-                            <span class="text-sm text-slate-500">Java & SQL Proficiency</span>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 bg-dark-secondary rounded-3xl p-8 md:p-12 border border-dark-line shadow-xl items-center">
+                <div class="flex justify-center items-center lg:col-span-1">
+                    
+                </div>
+                
+                <div class="space-y-6 lg:col-span-2">
+                    <h3 class="text-2xl font-bold text-white mb-4">My Journey & Expertise</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        I am a **Full-stack MERN & Java Developer** with a passion for architecting **robust backend systems** and **intuitive frontend interfaces**. My expertise spans 
+                        **React, Node.js, Java, Spring Boot,** and 
+                        **AWS** cloud infrastructure.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+                        <div class="bg-[#1e0d5a] p-4 rounded-xl text-center">
+                            <span class="text-green-400 text-3xl block">★</span>
+                            <span class="block font-semibold text-white">5-Star HackerRank</span>
+                            <span class="text-xs text-slate-400">Java & SQL Proficiency</span>
                         </div>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-indigo-500 mr-3 text-xl">⚛</span>
-                        <div>
-                            <span class="block font-semibold text-slate-800">MERN Stack Expert</span>
-                            <span class="text-sm text-slate-500">Full-stack Excellence Award</span>
+                        <div class="bg-[#1e0d5a] p-4 rounded-xl text-center">
+                            <span class="text-indigo-400 text-3xl block">⚛</span>
+                            <span class="block font-semibold text-white">MERN Stack Expert</span>
+                            <span class="text-xs text-slate-400">Full-stack Excellence Award</span>
                         </div>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="text-orange-500 mr-3 text-xl">☁</span>
-                        <div>
-                            <span class="block font-semibold text-slate-800">AWS Deployed</span>
-                            <span class="text-sm text-slate-500">EC2 & S3 Integration</span>
+                        <div class="bg-[#1e0d5a] p-4 rounded-xl text-center">
+                            <span class="text-orange-400 text-3xl block">☁</span>
+                            <span class="block font-semibold text-white">AWS Deployed</span>
+                            <span class="text-xs text-slate-400">EC2 & S3 Integration</span>
                         </div>
-                    </li>
-                </ul>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <a href="mailto:bhoiteamar3152000@gmail.com" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-700 hover:bg-indigo-600 transition-colors shadow-lg shadow-indigo-700/50">
+                            ✉ Email Me
+                        </a>
+                        <a href="https://www.linkedin.com/in/amar-bhoite-93685822a/" target="_blank" class="inline-flex items-center px-6 py-3 border border-dark-line text-base font-medium rounded-lg text-indigo-400 bg-indigo-900/50 hover:bg-indigo-900 transition-colors">
+                            In LinkedIn
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
+        
+        <section id="career" class="pt-8">
+            <h2 class="text-3xl font-bold text-center text-white mb-4">Professional Journey</h2>
+            <p class="text-slate-400 text-center mb-12">My career path involves hands-on development in both internship and full-time roles. 📝</p>
 
-        <!-- Skills Analytics Section -->
-        <section id="skills" class="bg-white rounded-3xl shadow-sm border border-slate-200 p-8 md:p-12 overflow-hidden">
-            <div class="mb-8 md:flex md:justify-between md:items-center">
-                <div class="mb-6 md:mb-0">
-                    <h2 class="text-3xl font-bold text-slate-900">Technical Proficiency</h2>
-                    <p class="text-slate-600 mt-2">A quantitative breakdown of my development stack.</p>
-                </div>
-                <div class="bg-slate-100 p-1 rounded-lg inline-flex">
-                    <button onclick="updateChart('languages')" id="btn-lang" class="px-4 py-2 text-sm font-medium rounded-md shadow-sm bg-white text-indigo-600 transition-all">Languages & Frameworks</button>
-                    <button onclick="updateChart('tools')" id="btn-tools" class="px-4 py-2 text-sm font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all">Tools & Platforms</button>
-                </div>
-            </div>
-            
-            <div class="w-full bg-slate-50 rounded-xl p-4 border border-slate-100">
-                <div class="chart-container">
-                    <canvas id="skillsChart"></canvas>
-                </div>
-            </div>
-            
-            <p class="mt-6 text-sm text-slate-500 text-center italic">
-                * Proficiency levels estimated based on project utilization and certification badges.
-            </p>
-        </section>
+            <div class="max-w-4xl mx-auto space-y-8 p-8 bg-dark-secondary rounded-3xl border border-dark-line shadow-xl">
+                <div class="flex flex-col space-y-4" id="exp-tabs">
+                    </div>
 
-        <!-- Experience Interactive Section -->
-        <section id="experience">
-            <div class="mb-10">
-                <h2 class="text-3xl font-bold text-slate-900">Professional Journey</h2>
-                <p class="text-slate-600 mt-2 max-w-3xl">
-                    My career path involves hands-on development in both internship and full-time roles, delivering end-to-end solutions for real-world clients. Select a role below to view details.
-                </p>
-            </div>
-
-            <div class="flex flex-col md:flex-row gap-8">
-                <!-- Tabs/Timeline List -->
-                <div class="md:w-1/3 flex flex-col space-y-2" id="exp-tabs">
-                    <!-- Tabs will be injected here by JS -->
-                </div>
-
-                <!-- Detail Panel -->
-                <div class="md:w-2/3 bg-white rounded-2xl p-8 shadow-md border border-slate-100 min-h-[300px] flex flex-col justify-center relative transition-all duration-300" id="exp-detail-panel">
-                    <!-- Dynamic Content -->
+                <div class="p-8 bg-dark-primary rounded-xl border border-dark-line min-h-[300px] flex flex-col justify-center relative transition-all duration-300" id="exp-detail-panel">
                     <div id="exp-content" class="opacity-100 transition-opacity duration-300">
-                        <!-- Content injected by JS -->
+                        <p class="text-slate-400 text-center">Select an entry from the timeline above to view details.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Projects Grid Section -->
-        <section id="projects">
-            <div class="mb-10">
-                <h2 class="text-3xl font-bold text-slate-900">Project Ecosystem</h2>
-                <p class="text-slate-600 mt-2">
-                    A showcase of deployed applications demonstrating full-stack capabilities, from database architecture to frontend UI and cloud deployment.
-                </p>
+        <section id="skills" class="pt-8">
+            <h2 class="text-3xl font-bold text-center text-white mb-4">Technical Proficiency</h2>
+            <p class="text-slate-400 text-center mb-12">A quantitative breakdown of my development stack. 🛠️</p>
+
+            <div class="bg-dark-secondary rounded-3xl p-8 md:p-12 border border-dark-line shadow-xl">
+                
+                <div class="flex flex-wrap justify-center gap-2 mb-8 border-b border-dark-line pb-4">
+                    <button onclick="updateChart('languages')" id="btn-lang" class="px-4 py-2 text-sm font-medium rounded-t-lg text-indigo-400 border-b-2 border-indigo-400">Languages & Frameworks</button>
+                    <button onclick="updateChart('tools')" id="btn-tools" class="px-4 py-2 text-sm font-medium rounded-t-lg text-slate-400 hover:text-indigo-400">Tools & Platforms</button>
+                </div>
+                
+                <div class="w-full bg-dark-primary rounded-xl p-4 border border-dark-line mb-8">
+                    <div class="chart-container">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                </div>
+                
+                <h3 class="text-lg font-bold text-white mb-4 pt-4 border-t border-dark-line">All Technologies Used</h3>
+                <div class="flex flex-wrap justify-center gap-3">
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">React</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">Node.js</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">MongoDB</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">Java</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">Spring Boot</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">MySQL</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">AWS (EC2/S3)</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">WebSockets</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">Socket.io</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">Next.js</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">REST APIs</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">Git/GitHub</span>
+                    <span class="custom-tag px-3 py-1 text-sm rounded-full font-medium">Tailwind CSS</span>
+                </div>
             </div>
+        </section>
+
+        <section id="projects" class="pt-8">
+            <h2 class="text-3xl font-bold text-center text-white mb-4">Project Ecosystem</h2>
+            <p class="text-slate-400 text-center mb-12">A showcase of deployed applications demonstrating full-stack capabilities. 🧪</p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projects-grid">
-                <!-- Cards injected by JS -->
-            </div>
+                </div>
         </section>
 
-        <!-- Education & Certifications -->
-        <section id="education" class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <section id="education" class="pt-8">
+            <h2 class="text-3xl font-bold text-center text-white mb-4">Education & Certifications</h2>
+            <p class="text-slate-400 text-center mb-12">My academic journey and professional qualifications. 🧠</p>
             
-            <!-- Education Column -->
-            <div>
-                <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
-                    <span class="bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3 text-sm">🎓</span> 
-                    Education
-                </h2>
-                <div class="space-y-6">
-                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-200 transition-colors">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-slate-900">B.E. Computer Engineering</h3>
-                            <span class="text-xs font-mono bg-slate-100 text-slate-600 px-2 py-1 rounded">2023</span>
+            <div class="bg-dark-secondary rounded-3xl p-8 md:p-12 border border-dark-line shadow-xl space-y-12">
+            
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
+                        <span class="text-3xl mr-3 text-neon-purple">🎓</span> Education
+                    </h3>
+                    <div class="space-y-6 pl-4 border-l-2 border-dark-line">
+                        <div class="bg-dark-primary p-6 rounded-xl border border-dark-line shadow-sm hover:border-indigo-400 transition-colors">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-xl text-white">B.E. Computer Engineering</h4>
+                                <span class="text-xs font-mono bg-indigo-900/50 text-indigo-400 px-2 py-1 rounded">2023</span>
+                            </div>
+                            <p class="text-indigo-400 text-sm font-medium mt-1">DYPIET, Ambi, Pune</p>
+                            <p class="text-slate-400 text-sm mt-2">CGPA: 8.3/10</p>
                         </div>
-                        <p class="text-indigo-600 text-sm font-medium mt-1">DYPIET, Ambi, Pune</p>
-                        <p class="text-slate-500 text-sm mt-2">CGPA: 8.3/10</p>
-                    </div>
-
-                    <div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-indigo-200 transition-colors">
-                        <div class="flex justify-between items-start">
-                            <h3 class="font-bold text-slate-900">Diploma Computer Engineering</h3>
-                            <span class="text-xs font-mono bg-slate-100 text-slate-600 px-2 py-1 rounded">2020</span>
-                        </div>
-                        <p class="text-indigo-600 text-sm font-medium mt-1">KBP Poly, Satara</p>
-                        <p class="text-slate-500 text-sm mt-2">Percentage: 83.00%</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Certifications Column -->
-            <div>
-                <h2 class="text-2xl font-bold text-slate-900 mb-6 flex items-center">
-                    <span class="bg-indigo-100 text-indigo-600 p-2 rounded-lg mr-3 text-sm">🏆</span> 
-                    Certifications & Awards
-                </h2>
-                <div class="space-y-4">
-                    <div class="flex items-center p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                        <div class="h-10 w-10 bg-yellow-100 rounded-full flex items-center justify-center text-yellow-600 font-bold mr-4">HR</div>
-                        <div>
-                            <h4 class="font-bold text-slate-900">Java 5-Star Badge</h4>
-                            <p class="text-xs text-slate-500">HackerRank (2025)</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                        <div class="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold mr-4">HR</div>
-                        <div>
-                            <h4 class="font-bold text-slate-900">SQL 5-Star Badge</h4>
-                            <p class="text-xs text-slate-500">HackerRank (2025)</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                        <div class="h-10 w-10 bg-green-100 rounded-full flex items-center justify-center text-green-600 font-bold mr-4">KT</div>
-                        <div>
-                            <h4 class="font-bold text-slate-900">MERN Stack Project Excellence</h4>
-                            <p class="text-xs text-slate-500">Kods Technology (2025)</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center p-4 bg-white rounded-xl border border-slate-200 shadow-sm">
-                        <div class="h-10 w-10 bg-red-100 rounded-full flex items-center justify-center text-red-600 font-bold mr-4">SL</div>
-                        <div>
-                            <h4 class="font-bold text-slate-900">Gemini in Google Drive</h4>
-                            <p class="text-xs text-slate-500">Simplilearn (2024)</p>
+    
+                        <div class="bg-dark-primary p-6 rounded-xl border border-dark-line shadow-sm hover:border-indigo-400 transition-colors">
+                            <div class="flex justify-between items-start">
+                                <h4 class="font-bold text-xl text-white">Diploma Computer Engineering</h4>
+                                <span class="text-xs font-mono bg-indigo-900/50 text-indigo-400 px-2 py-1 rounded">2020</span>
+                            </div>
+                            <p class="text-indigo-400 text-sm font-medium mt-1">KBP Poly, Satara</p>
+                            <p class="text-slate-400 text-sm mt-2">Percentage: 83.00%</p>
                         </div>
                     </div>
                 </div>
+    
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-6 flex items-center">
+                        <span class="text-3xl mr-3 text-neon-purple">🏆</span> Certifications & Awards
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center p-4 bg-dark-primary rounded-xl border border-dark-line shadow-sm hover:border-indigo-400 transition-colors">
+                            <div class="h-10 w-10 bg-yellow-900/50 rounded-full flex items-center justify-center text-yellow-400 font-bold mr-4">HR</div>
+                            <div>
+                                <h4 class="font-bold text-white">Java 5-Star Badge</h4>
+                                <p class="text-xs text-slate-400">HackerRank (2025)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-4 bg-dark-primary rounded-xl border border-dark-line shadow-sm hover:border-indigo-400 transition-colors">
+                            <div class="h-10 w-10 bg-blue-900/50 rounded-full flex items-center justify-center text-blue-400 font-bold mr-4">HR</div>
+                            <div>
+                                <h4 class="font-bold text-white">SQL 5-Star Badge</h4>
+                                <p class="text-xs text-slate-400">HackerRank (2025)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-4 bg-dark-primary rounded-xl border border-dark-line shadow-sm hover:border-indigo-400 transition-colors">
+                            <div class="h-10 w-10 bg-green-900/50 rounded-full flex items-center justify-center text-green-400 font-bold mr-4">KT</div>
+                            <div>
+                                <h4 class="font-bold text-white">MERN Stack Project Excellence</h4>
+                                <p class="text-xs text-slate-400">Kods Technology (2025)</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center p-4 bg-dark-primary rounded-xl border border-dark-line shadow-sm hover:border-indigo-400 transition-colors">
+                            <div class="h-10 w-10 bg-red-900/50 rounded-full flex items-center justify-center text-red-400 font-bold mr-4">SL</div>
+                            <div>
+                                <h4 class="font-bold text-white">Gemini in Google Drive</h4>
+                                <p class="text-xs text-slate-400">Simplilearn (2024)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-
         </section>
 
-        <!-- Footer -->
-        <footer class="text-center text-slate-500 text-sm py-12 border-t border-slate-200">
+        <section id="contact" class="pt-8">
+            <h2 class="text-3xl font-bold text-center text-white mb-4">Get In Touch</h2>
+            <p class="text-slate-400 text-center mb-12">Have a project in mind or want to chat? Feel free to reach out! 🗣️</p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 p-8 md:p-12 bg-dark-secondary rounded-3xl border border-dark-line shadow-xl">
+                <div class="space-y-8">
+                    <h3 class="text-2xl font-bold text-white border-b border-dark-line pb-3 mb-5">Let's Connect 👋</h3>
+                    <p class="text-slate-300 leading-relaxed">
+                        I'm always open to discussing new projects, creative ideas or opportunities to be part of your vision. Messages sent through this form will be delivered directly to my inbox. Feel free to contact me using the form or reach out directly via email.
+                    </p>
+                    <div class="space-y-4 pt-4">
+                        <div class="flex items-center text-slate-300">
+                            <span class="text-indigo-400 mr-4 text-xl">✉</span>
+                            <a href="mailto:bhoiteamar3152000@gmail.com" class="text-lg hover:text-indigo-400 transition-colors">bhoiteamar3152000@gmail.com</a>
+                        </div>
+                        <div class="flex items-center text-slate-300">
+                            <span class="text-indigo-400 mr-4 text-xl">📍</span>
+                            <span class="text-lg">Location: Pune, India 🇮🇳</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <input type="text" placeholder="Your name" class="w-full p-4 rounded-lg dark-input focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400" />
+                    <input type="email" placeholder="Your email" class="w-full p-4 rounded-lg dark-input focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400" />
+                    <input type="text" placeholder="Subject" class="w-full p-4 rounded-lg dark-input focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400" />
+                    <textarea placeholder="Your message" rows="6" class="w-full p-4 rounded-lg dark-input focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400"></textarea>
+                    <button class="w-full py-4 text-lg font-bold rounded-lg text-white bg-indigo-700 hover:bg-indigo-600 transition-colors shadow-lg shadow-indigo-700/50">
+                        Send Message 🚀
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center text-slate-500 text-sm py-12 border-t border-dark-line">
             <p>&copy; 2025 Amar Bhoite</p>
         </footer>
 
     </main>
 
     <script>
-        // --- Data Store ---
+        // --- Data Store (UNCHANGED) ---
         const skillsData = {
             languages: {
                 labels: ['Java', 'Spring Boot', 'React', 'Node.js', 'MongoDB', 'SQL', 'Next.js'],
-                data: [95, 90, 85, 80, 85, 90, 75], // Inferred values based on "5-star" and project usage
+                data: [95, 90, 85, 80, 85, 90, 75],
                 color: 'rgba(79, 70, 229, 0.7)', // Indigo
                 borderColor: 'rgba(79, 70, 229, 1)'
             },
@@ -305,7 +400,7 @@
                     "<strong>Utpala (Hospital):</strong> Built full-stack system with 7 dashboards single-handedly.",
                     "<strong>URLab:</strong> Optimized API performance and dashboard UI for lab management."
                 ],
-                tech: ["VS Code", "MongoDB", "Postman", "WebSockets"]
+                tech: ["VS Code", "MongoDB", "Postman", "WebSockets", "MERN Stack"]
             },
             {
                 id: 2,
@@ -318,7 +413,7 @@
                     "Developed user management & role-based access control modules.",
                     "Collaborated on debugging and API performance optimization."
                 ],
-                tech: ["Java", "Spring Boot", "MySQL"]
+                tech: ["Java", "Spring Boot", "MySQL", "REST APIs"]
             }
         ];
 
@@ -375,10 +470,12 @@
                         y: {
                             beginAtZero: true,
                             max: 100,
-                            grid: { color: '#f1f5f9' }
+                            grid: { color: '#1f2937' }, // Darker grid lines
+                            ticks: { color: '#9ca3af' } // Light ticks
                         },
                         x: {
-                            grid: { display: false }
+                            grid: { display: false },
+                            ticks: { color: '#9ca3af' } // Light ticks
                         }
                     },
                     plugins: {
@@ -410,50 +507,52 @@
             const btnTools = document.getElementById('btn-tools');
 
             if (type === 'languages') {
-                btnLang.className = "px-4 py-2 text-sm font-medium rounded-md shadow-sm bg-white text-indigo-600 transition-all";
-                btnTools.className = "px-4 py-2 text-sm font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
+                btnLang.className = "px-4 py-2 text-sm font-medium rounded-t-lg text-indigo-400 border-b-2 border-indigo-400";
+                btnTools.className = "px-4 py-2 text-sm font-medium rounded-t-lg text-slate-400 hover:text-indigo-400";
             } else {
-                btnTools.className = "px-4 py-2 text-sm font-medium rounded-md shadow-sm bg-white text-indigo-600 transition-all";
-                btnLang.className = "px-4 py-2 text-sm font-medium rounded-md text-slate-500 hover:text-slate-900 transition-all";
+                btnTools.className = "px-4 py-2 text-sm font-medium rounded-t-lg text-indigo-400 border-b-2 border-indigo-400";
+                btnLang.className = "px-4 py-2 text-sm font-medium rounded-t-lg text-slate-400 hover:text-indigo-400";
             }
         }
 
-        // --- Experience Interaction ---
+        // --- Experience Interaction (Now uses a timeline style) ---
         let currentExpId = 1;
 
         function renderExperience() {
             const tabContainer = document.getElementById('exp-tabs');
             const contentContainer = document.getElementById('exp-content');
             
-            // Render Tabs
+            // Render Tabs (Timeline Items)
             tabContainer.innerHTML = experienceData.map(exp => `
                 <button onclick="switchExperience(${exp.id})" 
-                    class="text-left px-6 py-4 rounded-xl transition-all duration-200 border-l-4 ${currentExpId === exp.id ? 'bg-white shadow-md border-indigo-500' : 'bg-transparent border-transparent hover:bg-slate-100'}">
-                    <h4 class="font-bold text-slate-900 ${currentExpId === exp.id ? 'text-indigo-700' : ''}">${exp.role}</h4>
-                    <p class="text-xs text-slate-500 mt-1 uppercase tracking-wide">${exp.company}</p>
+                    class="timeline-item-exp text-left px-6 py-4 rounded-xl transition-all duration-200 ml-4 ${currentExpId === exp.id ? 'bg-[#1e0d5a] shadow-md border-l-4 border-indigo-500' : 'bg-transparent hover:bg-[#1e0d5a]'}">
+                    <h4 class="font-bold text-lg ${currentExpId === exp.id ? 'text-indigo-400' : 'text-white'}">${exp.role}</h4>
+                    <p class="text-xs text-slate-400 mt-1 uppercase tracking-wide">${exp.company}</p>
                 </button>
             `).join('');
 
             // Render Content
             const activeExp = experienceData.find(e => e.id === currentExpId);
-            contentContainer.innerHTML = `
-                <div class="animate-fadeIn">
-                    <div class="flex justify-between items-start mb-4">
-                        <div>
-                            <h3 class="text-2xl font-bold text-slate-900">${activeExp.role}</h3>
-                            <p class="text-lg text-indigo-600 font-medium">${activeExp.company}</p>
+            if (activeExp) {
+                contentContainer.innerHTML = `
+                    <div class="animate-fadeIn">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="text-2xl font-bold text-white">${activeExp.role}</h3>
+                                <p class="text-lg text-indigo-400 font-medium">${activeExp.company}</p>
+                            </div>
+                            <span class="bg-indigo-900/50 text-indigo-400 px-3 py-1 rounded-full text-xs font-mono">${activeExp.period}</span>
                         </div>
-                        <span class="bg-slate-100 text-slate-600 px-3 py-1 rounded-full text-xs font-mono">${activeExp.period}</span>
+                        <p class="text-slate-400 mb-6 leading-relaxed">${activeExp.summary}</p>
+                        <ul class="space-y-3 mb-6">
+                            ${activeExp.highlights.map(h => `<li class="flex items-start"><span class="text-indigo-400 mr-2">➤</span> <span class="text-slate-300 text-sm">${h}</span></li>`).join('')}
+                        </ul>
+                        <div class="flex flex-wrap gap-2 pt-4 border-t border-dark-line">
+                            ${activeExp.tech.map(t => `<span class="custom-tag px-2 py-1 text-xs rounded border border-indigo-900/50">${t}</span>`).join('')}
+                        </div>
                     </div>
-                    <p class="text-slate-600 mb-6 leading-relaxed">${activeExp.summary}</p>
-                    <ul class="space-y-3 mb-6">
-                        ${activeExp.highlights.map(h => `<li class="flex items-start"><span class="text-indigo-400 mr-2">➤</span> <span class="text-slate-700 text-sm">${h}</span></li>`).join('')}
-                    </ul>
-                    <div class="flex flex-wrap gap-2 pt-4 border-t border-slate-100">
-                        ${activeExp.tech.map(t => `<span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded border border-slate-200">${t}</span>`).join('')}
-                    </div>
-                </div>
-            `;
+                `;
+            }
         }
 
         function switchExperience(id) {
@@ -466,38 +565,51 @@
             }, 200);
         }
 
-        // --- Projects Rendering ---
+        // --- Projects Rendering (Wuor Bhang's card style) ---
         function renderProjects() {
             const grid = document.getElementById('projects-grid');
-            grid.innerHTML = projectsData.map(proj => `
-                <div class="group bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-xl hover:border-indigo-200 transition-all duration-300 flex flex-col h-full">
+            grid.innerHTML = projectsData.map(proj => {
+                // Determine colors based on project stack/color hint
+                let bgColor, textColor, borderColor;
+                if (proj.color === 'indigo') {
+                    bgColor = 'bg-[#1e0d5a]'; textColor = 'text-indigo-400'; borderColor = 'border-indigo-400/50';
+                } else if (proj.color === 'emerald') {
+                    bgColor = 'bg-[#0d1e15]'; textColor = 'text-emerald-400'; borderColor = 'border-emerald-400/50';
+                } else { // default to blue
+                    bgColor = 'bg-[#0d151e]'; textColor = 'text-blue-400'; borderColor = 'border-blue-400/50';
+                }
+
+                return `
+                <div class="group ${bgColor} rounded-2xl shadow-sm border ${borderColor} overflow-hidden hover:shadow-xl hover:border-indigo-400 transition-all duration-300 flex flex-col h-full">
                     <div class="p-6 flex-grow">
                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">${proj.title}</h3>
-                            <span class="text-xs font-bold px-2 py-1 rounded bg-${proj.color}-100 text-${proj.color}-700 uppercase">${proj.stack.split(',')[0]}</span>
+                            <h3 class="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">${proj.title}</h3>
+                            <span class="text-xs font-bold px-2 py-1 rounded bg-dark-primary ${textColor} uppercase">${proj.stack.split(',')[0]}</span>
                         </div>
-                        <p class="text-sm text-slate-500 font-medium mb-3">${proj.subtitle}</p>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-4">${proj.desc}</p>
+                        <p class="text-sm text-slate-400 font-medium mb-3">${proj.subtitle}</p>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-4">${proj.desc}</p>
                         
                         <div class="space-y-2">
                             ${proj.features.slice(0,3).map(f => `
-                                <div class="flex items-center text-xs text-slate-500">
-                                    <span class="w-1.5 h-1.5 bg-slate-300 rounded-full mr-2"></span>${f}
+                                <div class="flex items-center text-xs text-slate-400">
+                                    <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2"></span>${f}
                                 </div>
                             `).join('')}
                         </div>
                     </div>
-                    <div class="bg-slate-50 p-4 border-t border-slate-100 text-xs text-slate-500 flex justify-between items-center">
+                    <div class="bg-dark-primary p-4 border-t border-dark-line text-xs text-slate-400 flex justify-between items-center">
                         <span class="font-mono">${proj.stack}</span>
-                        <span class="text-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity font-bold cursor-pointer">View Details &rarr;</span>
+                        <span class="text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity font-bold cursor-pointer">View Details &rarr;</span>
                     </div>
                 </div>
-            `).join('');
+            `;
+            }).join('');
         }
 
         // --- Utilities ---
         function scrollToSection(id) {
             const element = document.getElementById(id);
+            if (!element) return;
             const navHeight = 80; // approximate nav height
             const elementPosition = element.getBoundingClientRect().top;
             const offsetPosition = elementPosition + window.pageYOffset - navHeight;
@@ -525,6 +637,9 @@
                 const menu = document.getElementById('mobile-menu');
                 menu.classList.toggle('hidden');
             });
+            
+            // Set initial detail panel content
+            switchExperience(1); 
         });
 
     </script>
